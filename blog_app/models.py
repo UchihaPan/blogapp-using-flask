@@ -8,6 +8,7 @@ from datetime import datetime
 def load_user(user_id):
     return User.get(user_id)
 
+
 class User(database.Model, UserMixin):
     __tablename__ = 'users'
     id = database.column(database.Integer, primary_key=True)
@@ -29,15 +30,14 @@ class User(database.Model, UserMixin):
 
 
 class Posts(database.Model):
-    users=database.relationship(User)
+    users = database.relationship(User)
     id = database.column(database.Integer, primary_key=True)
-    user_id=database.column(database.Integer, database.ForeignKey('users.id'))
-    date=database.column(database.DateTime, nullable=False,default=datetime.utcnow)
-    title=database.column(database.String(64), nullable=False, defalult='a.jpg')
-    text=database.column(database.Text(564),nullable=False)
+    user_id = database.column(database.Integer, database.ForeignKey('users.id'))
+    date = database.column(database.DateTime, nullable=False, default=datetime.utcnow)
+    title = database.column(database.String(64), nullable=False, defalult='a.jpg')
+    text = database.column(database.Text(564), nullable=False)
 
-    def __init__(self,user_id,title,text):
-        self.user_id=user_id
-        self.title=title
-        self.text=text
-
+    def __init__(self, user_id, title, text):
+        self.user_id = user_id
+        self.title = title
+        self.text = text
