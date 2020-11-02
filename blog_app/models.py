@@ -17,7 +17,7 @@ class User(database.Model, UserMixin):
     email = database.column(database.String(64), unique=True, index=True)
     password_hash = database.column(database.String(64))
 
-    posts = database.relationship('posts', backref='bhaibhai', lazy=True)
+    posts = database.relationship('Posts', backref='bhaibhai', lazy=True)
 
     def __init__(self, username, email, password):
         self.email = email
@@ -26,3 +26,18 @@ class User(database.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+
+class Posts(database.Model):
+    users=database.relationship(User)
+    id = database.column(database.Integer, primary_key=True)
+    user_id=database.column(database.Integer, database.ForeignKey('users.id'))
+    date=database.column(database.DateTime, nullable=False,default=datetime.utcnow)
+    title=database.column(database.String(64), nullable=False, defalult='a.jpg')
+    text=database.column(database.Text(564),nullable=False)
+
+    def __init__(self,user_id,title,text):
+        self.user_id=user_id
+        self.title=title
+        self.text=text
+
